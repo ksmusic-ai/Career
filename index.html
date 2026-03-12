@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 시대 커리어 나침반</title>
+<link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;500;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050810;
+    --surface: #0d1117;
+    --card: #111827;
+    --border: #1f2937;
+    --accent1: #00f5c4;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --text: #f0f4ff;
+    --muted: #6b7280;
+    --glow: rgba(0, 245, 196, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,196,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,196,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: fadeDown 0.8s ease;
+  }
+
+  .header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .header .eyebrow::before,
+  .header .eyebrow::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--accent1);
+    opacity: 0.5;
+  }
+
+  h1 {
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Progress */
+  .progress-bar {
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent1));
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px var(--accent1);
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* Question card */
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 32px;
+    animation: fadeIn 0.5s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .question-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--accent2), var(--accent1));
+  }
+
+  .question-num {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .question-text {
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: clamp(17px, 3vw, 22px);
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 32px;
+    color: #e2e8f0;
+  }
+
+  .question-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  /* Options */
+  .options {
+    display: grid;
+    gap: 12px;
+  }
+
+  .option {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 24px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    text-align: left;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option:hover {
+    border-color: var(--accent1);
+    background: rgba(0, 245, 196, 0.05);
+    transform: translateY(-1px);
+  }
+
+  .option.selected {
+    border-color: var(--accent1);
+    background: rgba(0, 245, 196, 0.1);
+    box-shadow: 0 0 0 1px var(--accent1), 0 4px 20px rgba(0, 245, 196, 0.1);
+  }
+
+  .option-letter {
+    min-width: 28px;
+    height: 28px;
+    background: var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    transition: all 0.25s;
+  }
+
+  .option.selected .option-letter {
+    background: var(--accent1);
+    color: #000;
+  }
+
+  .option-text { flex: 1; }
+  .option-label { font-weight: 500; margin-bottom: 2px; }
+  .option-desc { font-size: 12px; color: var(--muted); }
+
+  /* Navigation */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .btn {
+    padding: 14px 32px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.25s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent2), #4f46e5);
+    color: white;
+    flex: 1;
+    max-width: 240px;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 14px 24px;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--muted);
+    color: var(--text);
+  }
+
+  /* Result */
+  .result-screen {
+    display: none;
+    animation: fadeIn 0.7s ease;
+  }
+
+  .result-screen.visible { display: block; }
+
+  .result-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .result-type-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .result-title {
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: clamp(26px, 5vw, 40px);
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .result-subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* Trait bars */
+  .traits-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+
+  .traits-title {
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent1);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .trait-row {
+    margin-bottom: 16px;
+  }
+
+  .trait-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .trait-name { color: #cbd5e1; }
+  .trait-val { color: var(--accent1); font-weight: 700; }
+
+  .trait-bar-bg {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .trait-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Job cards */
+  .section-label {
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent1);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .job-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    cursor: default;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .job-card:nth-child(1) { animation-delay: 0.1s; }
+  .job-card:nth-child(2) { animation-delay: 0.2s; }
+  .job-card:nth-child(3) { animation-delay: 0.3s; }
+  .job-card:nth-child(4) { animation-delay: 0.4s; }
+
+  .job-card:hover {
+    border-color: var(--accent1);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 245, 196, 0.1);
+  }
+
+  .job-icon { font-size: 28px; margin-bottom: 12px; }
+
+  .job-title {
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #e2e8f0;
+  }
+
+  .job-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-green { background: rgba(0,245,196,0.1); color: var(--accent1); }
+  .tag-purple { background: rgba(124,58,237,0.15); color: #a78bfa; }
+  .tag-amber { background: rgba(245,158,11,0.1); color: var(--accent3); }
+
+  /* Advice card */
+  .advice-card {
+    background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(0,245,196,0.05));
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+
+  .advice-list {
+    list-style: none;
+    display: grid;
+    gap: 14px;
+  }
+
+  .advice-list li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  .advice-num {
+    min-width: 24px;
+    height: 24px;
+    background: var(--accent2);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    margin-top: 1px;
+  }
+
+  /* AI risk indicator */
+  .risk-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+
+  .risk-meter {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .risk-track {
+    flex: 1;
+    height: 10px;
+    background: var(--border);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .risk-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+  }
+
+  .risk-label {
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 60px;
+    text-align: right;
+  }
+
+  /* Share section */
+  .share-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin-bottom: 16px;
+  }
+
+  .share-title {
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent1);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .share-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .share-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.25s;
+    text-decoration: none;
+  }
+
+  .share-btn-kakao {
+    background: #FEE500;
+    color: #3A1D1D;
+  }
+  .share-btn-kakao:hover { background: #f0d800; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(254,229,0,0.3); }
+
+  .share-btn-twitter {
+    background: #000;
+    color: #fff;
+    border: 1px solid #333;
+  }
+  .share-btn-twitter:hover { background: #111; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+
+  .share-btn-facebook {
+    background: #1877F2;
+    color: #fff;
+  }
+  .share-btn-facebook:hover { background: #166fe5; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(24,119,242,0.3); }
+
+  .share-btn-copy {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .share-btn-copy:hover { border-color: var(--accent1); color: var(--accent1); transform: translateY(-2px); }
+
+  .copy-url-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .copy-url-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: monospace;
+    outline: none;
+    cursor: text;
+  }
+
+  .copy-url-btn {
+    background: var(--accent2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: 'Gmarket Sans', sans-serif;
+  }
+  .copy-url-btn:hover { background: #6d28d9; }
+  .copy-url-btn.copied { background: #059669; }
+
+  .share-notice {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 8px;
+    font-size: 11px;
+    color: #d97706;
+    line-height: 1.6;
+  }
+
+  /* Restart */
+  .restart-btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: 14px;
+    transition: all 0.25s;
+    margin-top: 8px;
+  }
+
+  .restart-btn:hover {
+    border-color: var(--accent1);
+    color: var(--accent1);
+  }
+
+  /* Intro */
+  .intro-screen { animation: fadeIn 0.6s ease; }
+
+  .intro-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .intro-icon {
+    font-size: 64px;
+    display: block;
+    margin-bottom: 24px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .intro-card h2 {
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: 22px;
+    margin-bottom: 16px;
+    color: #e2e8f0;
+  }
+
+  .intro-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    max-width: 480px;
+    margin: 0 auto 24px;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .feature {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+  }
+
+  .feature-icon { font-size: 24px; margin-bottom: 8px; }
+  .feature-label { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .start-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--accent1), #00c49a);
+    color: #000;
+    border: none;
+    padding: 18px 48px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Gmarket Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0, 245, 196, 0.3);
+  }
+
+  .start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px rgba(0, 245, 196, 0.4);
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @media (max-width: 600px) {
+    .features { grid-template-columns: 1fr; }
+    .jobs-grid { grid-template-columns: 1fr; }
+    .question-card { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="eyebrow">AI Career Compass</div>
+    <h1>AI 시대 커리어<br>나침반</h1>
+    <p class="subtitle">당신의 성향을 분석해 AI 시대에 최적화된 직업과 성장 방향을 제시합니다</p>
+  </header>
+
+  <!-- Intro -->
+  <div class="intro-screen" id="introScreen">
+    <div class="intro-card">
+      <span class="intro-icon">🧭</span>
+      <h2>당신만을 위한 AI 시대 커리어 로드맵</h2>
+      <p>12개의 질문으로 당신의 성향, 강점, 사고 방식을 분석합니다.<br>AI와 공존하는 미래에서 빛날 수 있는 직업과 방향을 찾아드립니다.</p>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔍</div>
+        <div class="feature-label">성향 심층 분석</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🚀</div>
+        <div class="feature-label">AI 시대 최적 직업 추천</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🗺️</div>
+        <div class="feature-label">맞춤 성장 전략</div>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <button class="start-btn" onclick="startQuiz()">
+        <span>시작하기</span><span>→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div id="quizScreen" style="display:none">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-label">
+      <span id="progressText">1 / 12</span>
+      <span id="progressPct">0%</span>
+    </div>
+
+    <div class="question-card" id="questionCard">
+      <div class="question-num" id="qNum">Q01</div>
+      <span class="question-icon" id="qIcon"></span>
+      <div class="question-text" id="qText"></div>
+      <div class="options" id="optionsContainer"></div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-secondary" id="prevBtn" onclick="prevQ()" style="display:none">← 이전</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>다음 →</button>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="result-screen" id="resultScreen"></div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    icon: "🧩",
+    text: "복잡한 문제를 마주했을 때, 나는 주로 어떻게 접근하나요?",
+    options: [
+      { letter: "A", label: "데이터와 논리로 분석", desc: "숫자와 패턴을 분석해 체계적으로 해결책을 찾습니다", scores: { analytical: 3, creative: 0, social: 0, leadership: 0, technical: 2 } },
+      { letter: "B", label: "창의적 아이디어 발산", desc: "기존의 틀을 깨는 새로운 방법을 먼저 떠올립니다", scores: { analytical: 0, creative: 3, social: 0, leadership: 1, technical: 0 } },
+      { letter: "C", label: "사람들과 함께 논의", desc: "다양한 관점을 모아 함께 해결책을 찾아갑니다", scores: { analytical: 0, creative: 1, social: 3, leadership: 1, technical: 0 } },
+      { letter: "D", label: "직접 실험하며 발견", desc: "바로 시도해보고 결과를 통해 배웁니다", scores: { analytical: 1, creative: 1, social: 0, leadership: 0, technical: 3 } }
+    ]
+  },
+  {
+    icon: "🎨",
+    text: "가장 에너지가 넘치는 순간은 언제인가요?",
+    options: [
+      { letter: "A", label: "새로운 것을 만들어낼 때", desc: "아이디어가 현실이 되는 과정에서 큰 기쁨을 느낍니다", scores: { analytical: 0, creative: 3, social: 0, leadership: 1, technical: 1 } },
+      { letter: "B", label: "복잡한 문제를 풀었을 때", desc: "어려운 문제의 해답을 찾아냈을 때 성취감이 큽니다", scores: { analytical: 3, creative: 0, social: 0, leadership: 0, technical: 2 } },
+      { letter: "C", label: "누군가를 돕거나 가르칠 때", desc: "다른 사람의 성장을 함께할 때 보람을 느낍니다", scores: { analytical: 0, creative: 0, social: 3, leadership: 2, technical: 0 } },
+      { letter: "D", label: "팀을 이끌고 성과를 낼 때", desc: "방향을 제시하고 목표를 달성할 때 활력이 넘칩니다", scores: { analytical: 1, creative: 1, social: 1, leadership: 3, technical: 0 } }
+    ]
+  },
+  {
+    icon: "🤖",
+    text: "AI 도구를 사용할 때 나의 태도는?",
+    options: [
+      { letter: "A", label: "적극적으로 활용, 한계도 파악", desc: "AI를 도구로 잘 쓰되 그 한계를 명확히 인식합니다", scores: { analytical: 2, creative: 1, social: 0, leadership: 2, technical: 2 } },
+      { letter: "B", label: "AI와 협업해 창작물 제작", desc: "AI를 창작 파트너로 활용해 새로운 표현을 탐구합니다", scores: { analytical: 0, creative: 3, social: 0, leadership: 0, technical: 1 } },
+      { letter: "C", label: "사람 중심의 판단을 선호", desc: "AI보다 인간적인 맥락과 감성을 더 중요하게 생각합니다", scores: { analytical: 0, creative: 0, social: 3, leadership: 1, technical: 0 } },
+      { letter: "D", label: "AI 작동 원리 자체에 관심", desc: "어떻게 만들어지는지, 어떻게 개선할지 탐구합니다", scores: { analytical: 2, creative: 1, social: 0, leadership: 0, technical: 3 } }
+    ]
+  },
+  {
+    icon: "💬",
+    text: "커뮤니케이션 방식에서 나는?",
+    options: [
+      { letter: "A", label: "데이터로 설득하는 편", desc: "증거와 수치를 바탕으로 논리적으로 전달합니다", scores: { analytical: 3, creative: 0, social: 1, leadership: 1, technical: 1 } },
+      { letter: "B", label: "스토리텔링으로 공감 유도", desc: "감동적인 이야기로 사람들의 마음을 움직입니다", scores: { analytical: 0, creative: 2, social: 2, leadership: 1, technical: 0 } },
+      { letter: "C", label: "경청하고 조율하는 역할", desc: "모두의 의견을 듣고 합의점을 찾아갑니다", scores: { analytical: 0, creative: 0, social: 3, leadership: 2, technical: 0 } },
+      { letter: "D", label: "간결하고 직접적으로 전달", desc: "핵심만 빠르게 전달하는 것을 선호합니다", scores: { analytical: 1, creative: 0, social: 0, leadership: 3, technical: 1 } }
+    ]
+  },
+  {
+    icon: "🌱",
+    text: "미래를 위해 가장 중요하게 생각하는 능력은?",
+    options: [
+      { letter: "A", label: "비판적 사고와 판단력", desc: "AI의 결과물을 검증하고 옳고 그름을 판단하는 능력", scores: { analytical: 3, creative: 1, social: 0, leadership: 1, technical: 0 } },
+      { letter: "B", label: "공감 능력과 감성 지능", desc: "사람의 감정과 맥락을 이해하는 인간적인 능력", scores: { analytical: 0, creative: 1, social: 3, leadership: 1, technical: 0 } },
+      { letter: "C", label: "기술 활용과 적응력", desc: "새로운 기술을 빠르게 배우고 적용하는 능력", scores: { analytical: 1, creative: 0, social: 0, leadership: 0, technical: 3 } },
+      { letter: "D", label: "비전 제시와 영향력", desc: "방향을 제시하고 사람들을 움직이는 능력", scores: { analytical: 0, creative: 2, social: 1, leadership: 3, technical: 0 } }
+    ]
+  },
+  {
+    icon: "⚡",
+    text: "스트레스를 받을 때 나는?",
+    options: [
+      { letter: "A", label: "혼자 조용히 정리하는 시간", desc: "혼자서 생각을 정리하고 내면에서 에너지를 회복합니다", scores: { analytical: 2, creative: 2, social: 0, leadership: 0, technical: 1 } },
+      { letter: "B", label: "친한 사람들과 대화", desc: "신뢰하는 사람들과 이야기하며 에너지를 얻습니다", scores: { analytical: 0, creative: 0, social: 3, leadership: 1, technical: 0 } },
+      { letter: "C", label: "새로운 것을 만들거나 표현", desc: "글쓰기, 그림, 음악 등으로 감정을 해소합니다", scores: { analytical: 0, creative: 3, social: 0, leadership: 0, technical: 1 } },
+      { letter: "D", label: "운동이나 행동으로 해소", desc: "몸을 움직이거나 무언가를 직접 하며 해소합니다", scores: { analytical: 0, creative: 0, social: 0, leadership: 2, technical: 2 } }
+    ]
+  },
+  {
+    icon: "🏗️",
+    text: "프로젝트를 진행할 때 선호하는 역할은?",
+    options: [
+      { letter: "A", label: "설계자 — 구조와 계획 수립", desc: "전체 아키텍처와 방향을 설계하고 계획을 세웁니다", scores: { analytical: 2, creative: 1, social: 0, leadership: 3, technical: 1 } },
+      { letter: "B", label: "실행자 — 직접 만들고 구현", desc: "실제로 만들고 구현하는 과정을 즐깁니다", scores: { analytical: 1, creative: 1, social: 0, leadership: 0, technical: 3 } },
+      { letter: "C", label: "연결자 — 팀원 간 소통 조율", desc: "사람들 사이를 연결하고 협업이 잘 되도록 합니다", scores: { analytical: 0, creative: 0, social: 3, leadership: 2, technical: 0 } },
+      { letter: "D", label: "혁신자 — 새로운 방향 제안", desc: "기존 방식을 뒤집는 새로운 아이디어를 제안합니다", scores: { analytical: 1, creative: 3, social: 0, leadership: 1, technical: 0 } }
+    ]
+  },
+  {
+    icon: "📚",
+    text: "무언가를 배울 때 가장 잘 흡수되는 방식은?",
+    options: [
+      { letter: "A", label: "직접 해보며 배우기", desc: "실험과 시행착오를 통해 가장 잘 배웁니다", scores: { analytical: 1, creative: 1, social: 0, leadership: 0, technical: 3 } },
+      { letter: "B", label: "개념과 이론 먼저 이해", desc: "원리를 완전히 이해한 후 적용합니다", scores: { analytical: 3, creative: 0, social: 0, leadership: 0, technical: 1 } },
+      { letter: "C", label: "남에게 가르치며 배우기", desc: "설명하고 가르치는 과정에서 이해가 깊어집니다", scores: { analytical: 1, creative: 0, social: 3, leadership: 2, technical: 0 } },
+      { letter: "D", label: "시각화와 스토리로 배우기", desc: "그림, 도표, 이야기 형태로 배울 때 잘 이해됩니다", scores: { analytical: 0, creative: 3, social: 1, leadership: 0, technical: 0 } }
+    ]
+  },
+  {
+    icon: "🌍",
+    text: "10년 후 나의 모습으로 가장 가깝게 느껴지는 것은?",
+    options: [
+      { letter: "A", label: "AI 시스템을 설계하는 전문가", desc: "첨단 기술을 개발하고 세상을 변화시키는 엔지니어", scores: { analytical: 2, creative: 1, social: 0, leadership: 1, technical: 3 } },
+      { letter: "B", label: "AI 시대의 창작자/예술가", desc: "기술을 활용해 독창적인 작품과 경험을 만드는 창작자", scores: { analytical: 0, creative: 3, social: 1, leadership: 1, technical: 1 } },
+      { letter: "C", label: "사람과 AI를 연결하는 전략가", desc: "AI 도입과 인간 협업을 설계하는 리더", scores: { analytical: 1, creative: 1, social: 2, leadership: 3, technical: 1 } },
+      { letter: "D", label: "사람 중심 서비스의 전문가", desc: "AI가 대체 못하는 인간적 가치를 전달하는 전문가", scores: { analytical: 0, creative: 1, social: 3, leadership: 1, technical: 0 } }
+    ]
+  },
+  {
+    icon: "🎯",
+    text: "의사결정 시 나는 주로 무엇에 의존하나요?",
+    options: [
+      { letter: "A", label: "데이터와 사실", desc: "객관적인 수치와 증거에 기반해 결정합니다", scores: { analytical: 3, creative: 0, social: 0, leadership: 1, technical: 1 } },
+      { letter: "B", label: "직관과 경험", desc: "쌓아온 경험과 내면의 느낌을 신뢰합니다", scores: { analytical: 0, creative: 2, social: 1, leadership: 2, technical: 0 } },
+      { letter: "C", label: "주변 사람들의 의견", desc: "다양한 시각을 수렴해 균형 잡힌 결정을 합니다", scores: { analytical: 0, creative: 0, social: 3, leadership: 2, technical: 0 } },
+      { letter: "D", label: "비용-효과 분석", desc: "리소스와 결과를 철저히 계산합니다", scores: { analytical: 2, creative: 0, social: 0, leadership: 3, technical: 1 } }
+    ]
+  },
+  {
+    icon: "🔮",
+    text: "AI 시대에 대한 나의 솔직한 감정은?",
+    options: [
+      { letter: "A", label: "흥미롭고 기대된다", desc: "새로운 가능성에 설레며 적극적으로 뛰어들고 싶습니다", scores: { analytical: 1, creative: 2, social: 0, leadership: 1, technical: 2 } },
+      { letter: "B", label: "잘 활용하면 기회가 된다", desc: "전략적으로 접근하면 유리한 위치를 점할 수 있습니다", scores: { analytical: 2, creative: 0, social: 0, leadership: 3, technical: 1 } },
+      { letter: "C", label: "사람의 역할이 더 중요해진다", desc: "AI가 발전할수록 인간적인 능력의 가치가 높아집니다", scores: { analytical: 0, creative: 1, social: 3, leadership: 1, technical: 0 } },
+      { letter: "D", label: "변화에 적응하며 성장하겠다", desc: "빠르게 배우고 유연하게 적응해 살아남겠습니다", scores: { analytical: 1, creative: 1, social: 1, leadership: 1, technical: 2 } }
+    ]
+  },
+  {
+    icon: "💡",
+    text: "나만의 가장 큰 강점이라고 생각하는 것은?",
+    options: [
+      { letter: "A", label: "깊게 파고드는 집중력", desc: "복잡한 주제를 끝까지 탐구하는 끈기와 집중력", scores: { analytical: 3, creative: 1, social: 0, leadership: 0, technical: 2 } },
+      { letter: "B", label: "사람을 끌어당기는 매력", desc: "자연스럽게 신뢰를 얻고 사람들과 연결되는 능력", scores: { analytical: 0, creative: 1, social: 3, leadership: 2, technical: 0 } },
+      { letter: "C", label: "독창적인 아이디어", desc: "남들이 생각 못한 새로운 시각으로 문제를 봅니다", scores: { analytical: 0, creative: 3, social: 0, leadership: 1, technical: 1 } },
+      { letter: "D", label: "빠른 실행력", desc: "결정하면 바로 행동하고 결과를 만들어냅니다", scores: { analytical: 1, creative: 0, social: 0, leadership: 3, technical: 2 } }
+    ]
+  }
+];
+
+const careerProfiles = {
+  analytical: {
+    type: "분석형 전략가",
+    emoji: "🧠",
+    color: "#60a5fa",
+    gradient: "linear-gradient(135deg, #1d4ed8, #3b82f6)",
+    badge: { bg: "rgba(59,130,246,0.15)", color: "#60a5fa", text: "ANALYTICAL" },
+    summary: "데이터와 논리로 복잡한 문제를 해결하는 당신은 AI 시대에서 가장 중요한 '판단하는 인간'입니다. AI가 생성한 결과물을 검증하고 의미를 부여하는 역할에서 빛납니다.",
+    jobs: [
+      { icon: "📊", title: "AI 데이터 사이언티스트", desc: "AI 모델 설계·검증·개선, 비즈니스 인사이트 도출", tags: ["고성장", "고연봉", "수요폭발"] },
+      { icon: "🔍", title: "AI 감사관·윤리 전문가", desc: "AI 시스템의 편향, 오류, 위험을 검증하는 전문가", tags: ["신직종", "필수역할", "규제확대"] },
+      { icon: "💼", title: "퀀트 애널리스트", desc: "AI를 활용한 금융 모델링과 투자 전략 수립", tags: ["고연봉", "전문성"] },
+      { icon: "🏥", title: "의료 AI 스페셜리스트", desc: "AI 진단 보조 도구를 운영·검증하는 임상 전문가", tags: ["의료혁신", "안정성"] }
+    ],
+    advice: [
+      "AI 도구를 직접 사용해보고 그 한계와 강점을 파악하세요. 비판적 시각이 경쟁력입니다.",
+      "Python, SQL, 통계학 기반을 다지세요. 수학적 사고력은 AI가 대체하기 어렵습니다.",
+      "도메인 전문 지식(의료, 금융, 법률 등)과 AI를 결합하면 독보적 포지션이 됩니다.",
+      "AI 결과물의 '왜?'를 설명하는 능력(XAI)을 갖추면 기업에서 매우 희소한 인재가 됩니다."
+    ],
+    aiRisk: 25,
+    riskColor: "#22c55e"
+  },
+  creative: {
+    type: "창의적 혁신가",
+    emoji: "✨",
+    color: "#f59e0b",
+    gradient: "linear-gradient(135deg, #d97706, #f59e0b)",
+    badge: { bg: "rgba(245,158,11,0.15)", color: "#f59e0b", text: "CREATIVE" },
+    summary: "독창적인 아이디어로 세상을 새롭게 보는 당신은 AI와 협업해 기존에 불가능했던 창작을 실현합니다. AI는 당신의 창의성을 증폭시키는 최강의 파트너입니다.",
+    jobs: [
+      { icon: "🎨", title: "AI 크리에이티브 디렉터", desc: "AI 도구로 브랜드 아이덴티티와 캠페인을 설계", tags: ["창작혁신", "고수요", "미래직종"] },
+      { icon: "📝", title: "AI 콘텐츠 전략가", desc: "AI와 협업해 대규모 콘텐츠 전략을 기획·실행", tags: ["미디어", "성장중"] },
+      { icon: "🎮", title: "게임·메타버스 디자이너", desc: "AI 생성 기술을 활용한 몰입형 경험 설계", tags: ["신산업", "기술융합"] },
+      { icon: "🤝", title: "프롬프트 엔지니어·AI 큐레이터", desc: "AI 출력을 최적화하고 창의적 결과물을 선별", tags: ["신직종", "전문성"] }
+    ],
+    advice: [
+      "Midjourney, Suno, ChatGPT 등 AI 창작 도구를 지금 당장 다양하게 실험해보세요.",
+      "'AI가 만든 것'과 '사람이 큐레이션한 것'의 차이가 바로 당신의 가치입니다.",
+      "특정 스타일, 장르, 니치 분야에서 독보적인 전문가가 되면 AI도 흉내 못 냅니다.",
+      "포트폴리오를 지속적으로 공개하고 자신만의 세계관을 구축하세요."
+    ],
+    aiRisk: 30,
+    riskColor: "#22c55e"
+  },
+  social: {
+    type: "인간 중심 연결자",
+    emoji: "🤝",
+    color: "#00f5c4",
+    gradient: "linear-gradient(135deg, #059669, #00f5c4)",
+    badge: { bg: "rgba(0,245,196,0.15)", color: "#00f5c4", text: "SOCIAL" },
+    summary: "공감과 소통으로 사람을 연결하는 당신은 AI가 절대 대체할 수 없는 '인간성'을 가진 전문가입니다. AI 시대일수록 진정한 인간적 연결의 가치는 더욱 높아집니다.",
+    jobs: [
+      { icon: "🧑‍💼", title: "AI 변화관리 컨설턴트", desc: "기업의 AI 도입 과정에서 구성원의 변화를 이끄는 전문가", tags: ["신직종", "필수역할", "기업수요"] },
+      { icon: "🎓", title: "AI 리터러시 교육가", desc: "AI를 올바르게 이해하고 활용하도록 교육하는 전문가", tags: ["교육혁신", "사회적가치"] },
+      { icon: "💆", title: "AI 시대 상담·코칭 전문가", desc: "기술 변화로 인한 불안과 직업 전환을 돕는 상담가", tags: ["인간적가치", "성장중"] },
+      { icon: "🌐", title: "커뮤니티 빌더·플랫폼 매니저", desc: "온·오프라인 커뮤니티를 기획하고 운영하는 전문가", tags: ["관계자본", "미래직종"] }
+    ],
+    advice: [
+      "공감 능력과 감성 지능(EQ)은 AI가 대체 불가능한 최강의 무기입니다. 더욱 갈고닦으세요.",
+      "AI 도구 활용법을 배워 업무 효율을 높이되, 인간적 판단과 관계를 중심에 두세요.",
+      "여러 분야의 사람들과 네트워크를 쌓으세요. 관계 자본이 AI 시대의 핵심 자산입니다.",
+      "협상, 조정, 갈등 해결 능력은 AI 시대에 더욱 희귀하고 귀한 스킬이 됩니다."
+    ],
+    aiRisk: 15,
+    riskColor: "#22c55e"
+  },
+  technical: {
+    type: "기술 구현 전문가",
+    emoji: "⚙️",
+    color: "#a78bfa",
+    gradient: "linear-gradient(135deg, #7c3aed, #a78bfa)",
+    badge: { bg: "rgba(167,139,250,0.15)", color: "#a78bfa", text: "TECHNICAL" },
+    summary: "실행력과 기술력으로 아이디어를 현실로 만드는 당신은 AI 시대의 핵심 엔진입니다. AI를 직접 개발하고 운용하는 엔지니어의 수요는 앞으로도 폭발적으로 증가합니다.",
+    jobs: [
+      { icon: "🤖", title: "ML·AI 엔지니어", desc: "머신러닝 모델 개발, 파인튜닝, 프로덕션 배포", tags: ["폭발적수요", "최고연봉"] },
+      { icon: "☁️", title: "MLOps·AI 인프라 전문가", desc: "AI 시스템의 안정적 운영과 자동화 파이프라인 구축", tags: ["신직종", "고연봉", "필수역할"] },
+      { icon: "🔒", title: "AI 보안·레드팀 전문가", desc: "AI 시스템의 취약점을 탐지하고 방어하는 전문가", tags: ["신직종", "희소성"] },
+      { icon: "🧬", title: "바이오·AI 융합 연구원", desc: "AI를 활용한 신약 개발, 유전체 분석 연구", tags: ["미래산업", "연구"] }
+    ],
+    advice: [
+      "LLM, 멀티모달 AI, 강화학습 등 최신 AI 기술 트렌드를 지속적으로 학습하세요.",
+      "GitHub에 프로젝트를 꾸준히 올리고, 오픈소스에 기여하세요. 포트폴리오가 최고의 이력서입니다.",
+      "AI 개발 경험뿐만 아니라 특정 산업(의료, 금융, 제조 등) 도메인 지식을 병행 습득하세요.",
+      "커뮤니케이션 스킬을 키우세요. 기술을 비기술자에게 설명하는 능력이 고소득의 핵심입니다."
+    ],
+    aiRisk: 20,
+    riskColor: "#22c55e"
+  },
+  leadership: {
+    type: "AI 시대 리더",
+    emoji: "🚀",
+    color: "#f87171",
+    gradient: "linear-gradient(135deg, #dc2626, #f87171)",
+    badge: { bg: "rgba(248,113,113,0.15)", color: "#f87171", text: "LEADERSHIP" },
+    summary: "방향을 제시하고 사람과 AI를 함께 이끄는 당신은 AI 시대의 오케스트라 지휘자입니다. 기술을 이해하고 사람을 움직이는 리더십의 가치는 더욱 높아집니다.",
+    jobs: [
+      { icon: "📱", title: "AI 프로덕트 매니저", desc: "AI 기반 제품의 전략·로드맵·팀을 이끄는 리더", tags: ["고수요", "고연봉", "미래직종"] },
+      { icon: "🏢", title: "Chief AI Officer (CAIO)", desc: "기업의 AI 전략 전체를 총괄하는 임원급 리더", tags: ["임원급", "신직종"] },
+      { icon: "🌱", title: "AI 스타트업 창업가", desc: "AI 기반 서비스로 새로운 시장을 창출하는 기업가", tags: ["기업가정신", "고위험고수익"] },
+      { icon: "🎤", title: "AI 트랜스포메이션 리더", desc: "대기업의 AI 전환 프로젝트를 이끄는 전략 리더", tags: ["대기업수요", "전략"] }
+    ],
+    advice: [
+      "AI 기술의 가능성과 한계를 '사용자' 수준에서 직접 체험하고 이해하세요.",
+      "기술 인재와 비기술 인재 모두를 이해하고 다리를 놓는 능력을 키우세요.",
+      "AI 윤리, 거버넌스, 규제 흐름을 파악하세요. 책임감 있는 리더십이 핵심입니다.",
+      "빠른 결정과 실험 문화를 조직에 심으세요. AI 시대의 속도는 그 무엇보다 중요합니다."
+    ],
+    aiRisk: 18,
+    riskColor: "#22c55e"
+  }
+};
+
+let current = 0;
+let answers = [];
+let scores = { analytical: 0, creative: 0, social: 0, leadership: 0, technical: 0 };
+
+function startQuiz() {
+  document.getElementById('introScreen').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const pct = Math.round((current / questions.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${current + 1} / ${questions.length}`;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('qNum').textContent = 'Q' + String(current + 1).padStart(2, '0');
+  document.getElementById('qIcon').textContent = q.icon;
+  document.getElementById('qText').textContent = q.text;
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option' + (answers[current] === i ? ' selected' : '');
+    btn.innerHTML = `
+      <div class="option-letter">${opt.letter}</div>
+      <div class="option-text">
+        <div class="option-label">${opt.label}</div>
+        <div class="option-desc">${opt.desc}</div>
+      </div>`;
+    btn.onclick = () => selectOption(i);
+    container.appendChild(btn);
+  });
+
+  document.getElementById('prevBtn').style.display = current > 0 ? 'block' : 'none';
+  document.getElementById('nextBtn').disabled = answers[current] === undefined;
+  document.getElementById('nextBtn').textContent = current === questions.length - 1 ? '결과 보기 🎯' : '다음 →';
+
+  // animate
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'fadeIn 0.4s ease';
+}
+
+function selectOption(idx) {
+  answers[current] = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQ() {
+  if (answers[current] === undefined) return;
+  const q = questions[current];
+  const sel = q.options[answers[current]];
+  Object.keys(sel.scores).forEach(k => { scores[k] += sel.scores[k]; });
+
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function prevQ() {
+  if (current > 0) {
+    // undo last score
+    const q = questions[current];
+    if (answers[current] !== undefined) {
+      const sel = q.options[answers[current]];
+      Object.keys(sel.scores).forEach(k => { scores[k] -= sel.scores[k]; });
+    }
+    current--;
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById('quizScreen').style.display = 'none';
+  const result = document.getElementById('resultScreen');
+  result.classList.add('visible');
+
+  const top = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+  const profile = careerProfiles[top];
+
+  const tagColors = ['tag-green', 'tag-purple', 'tag-amber'];
+
+  const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
+  const traits = [
+    { name: '분석·논리', key: 'analytical', color: '#60a5fa' },
+    { name: '창의·혁신', key: 'creative', color: '#f59e0b' },
+    { name: '공감·소통', key: 'social', color: '#00f5c4' },
+    { name: '리더십·실행', key: 'leadership', color: '#f87171' },
+    { name: '기술·구현', key: 'technical', color: '#a78bfa' }
+  ];
+
+  result.innerHTML = `
+    <div class="result-header">
+      <div class="result-type-badge" style="background:${profile.badge.bg}; color:${profile.badge.color}">
+        ${profile.badge.text}
+      </div>
+      <div class="result-title">${profile.emoji} ${profile.type}</div>
+      <p class="result-subtitle">${profile.summary}</p>
+    </div>
+
+    <div class="traits-card">
+      <div class="traits-title">성향 분석 레이더</div>
+      ${traits.map(t => {
+        const pct = Math.min(100, Math.round((scores[t.key] / (totalScore || 1)) * 100 * 2.2));
+        return `
+        <div class="trait-row">
+          <div class="trait-head">
+            <span class="trait-name">${t.name}</span>
+            <span class="trait-val">${pct}%</span>
+          </div>
+          <div class="trait-bar-bg">
+            <div class="trait-bar-fill" id="bar_${t.key}" style="width:0%;background:${t.color}"></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="section-label">🎯 추천 직업 & 역할</div>
+    <div class="jobs-grid">
+      ${profile.jobs.map(j => `
+        <div class="job-card">
+          <div class="job-icon">${j.icon}</div>
+          <div class="job-title">${j.title}</div>
+          <div class="job-desc">${j.desc}</div>
+          <div class="job-tags">
+            ${j.tags.map((t, i) => `<span class="tag ${tagColors[i % 3]}">${t}</span>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="advice-card">
+      <div class="section-label" style="margin-bottom:20px">🗺️ 성장 전략 로드맵</div>
+      <ul class="advice-list">
+        ${profile.advice.map((a, i) => `
+          <li>
+            <div class="advice-num">${i + 1}</div>
+            <span>${a}</span>
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+
+    <div class="risk-card">
+      <div class="section-label" style="margin-bottom:8px">⚡ AI 대체 위험도 진단</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">
+        당신의 성향과 강점은 AI가 대체하기 어려운 영역에 집중되어 있습니다.
+      </p>
+      <div style="font-size:13px;margin-bottom:8px;color:#cbd5e1">AI 대체 가능성</div>
+      <div class="risk-meter">
+        <div class="risk-track">
+          <div class="risk-fill" id="riskFill" style="width:0%;background:${profile.riskColor}"></div>
+        </div>
+        <div class="risk-label" style="color:${profile.riskColor}">${profile.aiRisk}%</div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:12px">
+        * McKinsey·Oxford 연구 기반, 성향별 추정 수치입니다
+      </p>
+    </div>
+
+    <div class="share-section">
+      <div class="share-title">📤 결과 공유하기</div>
+      <div class="share-desc">친구에게 테스트를 추천하고 결과를 함께 비교해보세요!</div>
+      <div class="share-buttons">
+        <button class="share-btn share-btn-kakao" onclick="shareKakao('${profile.type}', '${profile.emoji}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.8c0 2.7 1.65 5.07 4.15 6.52L5.1 21l4.85-2.6c.67.1 1.35.15 2.05.15 5.523 0 10-3.477 10-7.8S17.523 3 12 3z"/></svg>
+          카카오톡 공유
+        </button>
+        <button class="share-btn share-btn-twitter" onclick="shareTwitter('${profile.type}', '${profile.emoji}')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X (트위터)
+        </button>
+        <button class="share-btn share-btn-facebook" onclick="shareFacebook()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          페이스북
+        </button>
+        <button class="share-btn share-btn-copy" onclick="copyLink()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          링크 복사
+        </button>
+      </div>
+      <div class="copy-url-row">
+        <input class="copy-url-input" id="urlInput" type="text" value="${window.location.href}" readonly onclick="this.select()"/>
+        <button class="copy-url-btn" id="copyUrlBtn" onclick="copyUrl()">복사</button>
+      </div>
+      <div class="share-notice">
+        💡 <strong>Netlify로 배포하면</strong> 누구나 이 URL로 접속할 수 있습니다. HTML 파일을 netlify.com에 드래그앤드롭하면 30초 만에 공유 링크가 생성됩니다.
+      </div>
+    </div>
+
+    <button class="restart-btn" onclick="restartQuiz()">↩ 처음부터 다시 하기</button>
+  `;
+
+  // animate bars after render
+  setTimeout(() => {
+    traits.forEach(t => {
+      const pct = Math.min(100, Math.round((scores[t.key] / (totalScore || 1)) * 100 * 2.2));
+      const el = document.getElementById('bar_' + t.key);
+      if (el) el.style.width = pct + '%';
+    });
+    const rf = document.getElementById('riskFill');
+    if (rf) rf.style.width = profile.aiRisk + '%';
+  }, 100);
+}
+
+function restartQuiz() {
+  current = 0;
+  answers = [];
+  scores = { analytical: 0, creative: 0, social: 0, leadership: 0, technical: 0 };
+  document.getElementById('resultScreen').classList.remove('visible');
+  document.getElementById('resultScreen').innerHTML = '';
+  document.getElementById('introScreen').style.display = 'block';
+}
+
+function shareKakao(type, emoji) {
+  const url = window.location.href;
+  const text = `나의 AI 시대 커리어 유형은 "${emoji} ${type}"입니다!\n나만의 AI 시대 직업을 찾아보세요 👇`;
+  // 카카오 SDK가 없으면 카카오 공유 앱 딥링크로 fallback
+  const kakaoUrl = `https://sharer.kakao.com/talk/friends/picker/link?app_key=DEMO&link_ver=4.0&template_object=${encodeURIComponent(JSON.stringify({
+    object_type: 'feed',
+    content: {
+      title: `🧭 AI 시대 커리어 나침반`,
+      description: text,
+      link: { web_url: url, mobile_web_url: url }
+    }
+  }))}`;
+
+  // 모바일에서는 카카오톡 앱 공유, PC에서는 웹 공유
+  const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.location.href = `kakaolink://send?text=${encodeURIComponent(text + '\n' + url)}`;
+    setTimeout(() => {
+      // 앱이 없으면 URL 복사
+      copyToClipboard(`${text}\n${url}`, '카카오톡에 붙여넣기할 내용이 복사되었습니다! 📋');
+    }, 1000);
+  } else {
+    copyToClipboard(`${text}\n${url}`, '카카오톡에 붙여넣기할 내용이 복사되었습니다! 카카오톡을 열고 채팅창에 붙여넣기 하세요 📋');
+  }
+}
+
+function shareTwitter(type, emoji) {
+  const url = window.location.href;
+  const text = `나의 AI 시대 커리어 유형은 "${emoji} ${type}"!\nAI 시대에 나에게 맞는 직업을 찾아보세요 🧭`;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+  window.open(twitterUrl, '_blank', 'width=600,height=400');
+}
+
+function shareFacebook() {
+  const url = window.location.href;
+  const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+  window.open(fbUrl, '_blank', 'width=600,height=400');
+}
+
+function copyLink() {
+  copyToClipboard(window.location.href, '링크가 복사되었습니다! 카카오톡, 문자 등 어디서나 붙여넣기 하세요 ✅');
+}
+
+function copyUrl() {
+  const btn = document.getElementById('copyUrlBtn');
+  copyToClipboard(window.location.href, null);
+  btn.textContent = '✓ 복사됨';
+  btn.classList.add('copied');
+  setTimeout(() => {
+    btn.textContent = '복사';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function copyToClipboard(text, message) {
+  navigator.clipboard.writeText(text).then(() => {
+    if (message) showToast(message);
+  }).catch(() => {
+    // fallback
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    if (message) showToast(message);
+  });
+}
+
+function showToast(msg) {
+  const existing = document.getElementById('toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.id = 'toast';
+  toast.textContent = msg;
+  toast.style.cssText = `
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+    background: #1f2937; color: #f0f4ff; padding: 14px 24px;
+    border-radius: 12px; font-size: 13px; z-index: 9999;
+    border: 1px solid #374151; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    max-width: 90vw; text-align: center; line-height: 1.5;
+    animation: fadeIn 0.3s ease;
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; }, 3000);
+  setTimeout(() => toast.remove(), 3300);
+}
+</script>
+</body>
+</html>
